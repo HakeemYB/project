@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+
+  backend:
+    # build: server
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: node-dailyactivity:latest
+    container_name: server
+    restart: always
+    ports:
+      - 4000:4000
+    volumes:
+      - ./daily-activity-sheet:/usr/daily-activity-sheet/app
+      - /usr/daily-activity-sheet/app/node_modules
+
+  frontend:
+    # build: client
+    build:
+      context: ./dailyactivity
+      dockerfile: Dockerfile
+    image: dailyactivity:latest
+    container_name: client
+    restart: always
+    ports:
+      - 3001:3000
+    stdin_open: true
+    volumes:
+      - ./dailyactivity:/usr/App
+      - /usr/dailyactivity/node_modules
+    depends_on:
+      - backend
+
