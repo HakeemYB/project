@@ -1,0 +1,22 @@
+
+name: Dockerize React App
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        npm install
+    - name: Build React App
+      run: |
+        npm run build
+    - name: Create Docker Image
+      run: |
+        docker build -t baighakeemyar/dailyactivity:latest .
+    - name: Push Docker Image
+      run: |
+        docker push baighakeemyar/dailyactivity:latest
